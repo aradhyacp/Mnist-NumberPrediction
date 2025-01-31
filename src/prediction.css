@@ -1,0 +1,44 @@
+.prediction-container{
+    box-shadow: 0 0px 15px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-sizing: border-box;
+    width: 50%;
+    margin: auto;
+    color:black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: 20px;
+    font-family: "Raleway";
+    font-weight: 600;
+    margin-right: 18px;
+    background-color: white;
+}
+.prediction{
+    padding: 30px;
+    font-size: 23px;
+}
+.pnum{
+    font-size: 120px;
+    /* padding: 30px;
+    padding-left: 50px;
+    padding-right: 50px; */
+    padding: 30px 50px;
+    background-color: rgb(213, 213, 213);
+    margin-top: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2em;
+    width: 2em;
+    border-radius: 20px;
+    border: 3px solid black;
+    color: rgb(0, 193, 39);
+}
+.confi-container{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    padding: 30px;
+}
