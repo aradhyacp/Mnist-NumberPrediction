@@ -5,58 +5,63 @@ const Canvas = ({ onDrawFinish }) => {
   const ctxRef = useRef(null);
   let mouseX, mouseY;
   let lastX, lastY;
+  let touchX, touchY;
   let isDrawing = false;
+  useEffect(()=>{
+    if(canvasRef.current){
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctxRef.current = ctx;  
+    }
+  },[canvasRef])
+
+  const handleMouseDown = (e) => {
+    isDrawing = true;
+    getMousePos(e);
+    lastX = mouseX;
+    lastY = mouseY;
+  };
+
+  const handleMouseUp = () => {
+    if (isDrawing) {
+      isDrawing = false;
+      onDrawFinish(canvasRef.current); // Call this if you need to do something when drawing finishes
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDrawing) return;
+    getMousePos(e);
+    draw(ctxRef.current, mouseX, mouseY);
+  };
+
+  const handleTouchStart = (e) => {
+    isDrawing = true;
+    getTouchPos(e);
+    lastX = touchX;
+    lastY = touchY;
+    draw(ctxRef.current, touchX, touchY);
+    e.preventDefault();
+  };
+
+  const handleTouchEnd = () => {
+    if (isDrawing) {
+      isDrawing = false;
+      onDrawFinish(canvasRef.current); // Call this if you need to do something when drawing finishes
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDrawing) return;
+    getTouchPos(e);
+    draw(ctxRef.current, touchX, touchY);
+    e.preventDefault();
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctxRef.current = ctx;
-
-    const handleMouseDown = (e) => {
-      isDrawing = true;
-      getMousePos(e);
-      lastX = mouseX;
-      lastY = mouseY;
-    };
-
-    const handleMouseUp = () => {
-      if (isDrawing) {
-        isDrawing = false;
-        onDrawFinish(canvas); // Call this if you need to do something when drawing finishes
-      }
-    };
-
-    const handleMouseMove = (e) => {
-      if (!isDrawing) return;
-      getMousePos(e);
-      draw(ctx, mouseX, mouseY);
-    };
-
-    const handleTouchStart = (e) => {
-      isDrawing = true;
-      getTouchPos(e);
-      lastX = touchX;
-      lastY = touchY;
-      draw(ctx, touchX, touchY);
-      e.preventDefault();
-    };
-
-    const handleTouchEnd = () => {
-      if (isDrawing) {
-        isDrawing = false;
-        onDrawFinish(canvas); // Call this if you need to do something when drawing finishes
-      }
-    };
-
-    const handleTouchMove = (e) => {
-      if (!isDrawing) return;
-      getTouchPos(e);
-      draw(ctx, touchX, touchY);
-      e.preventDefault();
-    };
-
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
@@ -70,11 +75,11 @@ const Canvas = ({ onDrawFinish }) => {
       canvas.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
 
-      canvas.removeEventListener('touchstart', handleTouchStart);
+      canvas?.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
-      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas?.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [onDrawFinish]);
+  }, [handleMouseDown, handleMouseMove, handleMouseUp, handleTouchEnd, handleTouchMove, handleTouchStart]);
 
   const getMousePos = (e) => {
     const rect = canvasRef.current.getBoundingClientRect();
