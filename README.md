@@ -26,7 +26,7 @@ A simple and interactive web application that predicts handwritten digits (0-9) 
 
 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/your-username/Mnist-NumberPrediction.git
+   git clone https://github.com/aradhyacp/Mnist-NumberPrediction
    ```
 2. Navigate to the project directory:
 
