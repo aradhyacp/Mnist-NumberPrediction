@@ -2,6 +2,7 @@
 
 A simple and interactive web application that predicts handwritten digits (0-9) using the MNIST dataset. Built with React, Vite, and TensorFlow.js, this project allows users to draw a digit on a canvas and instantly see the predicted number along with the confidence level.
 
+Watch it live: http://cnn.jack1337.serv00.net/
 ---
 
 ## Features
